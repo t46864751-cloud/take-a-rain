@@ -18,11 +18,17 @@ This application allows users to trigger a rain effect in a chosen city. The int
     *   The application uses a dark, rainy theme on the home page with a custom rain animation.
     *   The weather page has a dynamic background that will change based on the weather conditions.
 *   **Weather API Integration:**
-    *   The application uses the OpenWeatherMap API to fetch real-time weather data.
+    *   The application uses the `wttr.in` API to fetch real-time weather data in Russian, which does not require an API key.
     *   The `GetWeather.jsx` component fetches and displays the current weather for a given city.
     *   The background of the weather page dynamically changes based on the weather (sunny, rainy, cloudy, etc.).
+*   **Improved Weather Page:**
+    *   The weather page now has a more modern and spacious design.
+    *   It displays more weather details: feels like temperature, wind speed, humidity, and UV index.
+    *   All weather descriptions and UI elements are in Russian.
+    *   When weather is displayed, two buttons appear:
+        *   A "✏️ Изменить город" button to quickly search for a different city.
+        *   A "Изменить погоду" button in the top-right corner that also returns to the search page.
 
 ## Current Plan
 
-*   **Secure API Key:**
-    *   The OpenWeatherMap API key is currently hardcoded in the `GetWeather.jsx` component. This is not secure and should be moved to an environment variable.
+*   The application is fully functional. The next steps could involve adding more features like a 5-day forecast, or improving the user interface.
