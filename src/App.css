@@ -110,6 +110,13 @@ body, html, #root {
   line-height: 1.7;
 }
 
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
 .start-button {
   font-size: 1.3rem;
   font-weight: 600;

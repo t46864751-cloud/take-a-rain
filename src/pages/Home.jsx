@@ -2,16 +2,25 @@ import React, { useEffect, useRef } from 'react';
 import '../App.css';
 import { Link, useLocation } from 'react-router-dom';
 import Chat from '../components/Chat';
+import ActionButton from '../components/ActionButton';
 
 function Home() {
     const location = useLocation();
     const agentSectionRef = useRef(null);
+    const chatRef = useRef(null);
 
     useEffect(() => {
         if (location.state?.scrollTo === 'agent') {
             agentSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
         }
     }, [location]);
+
+    const handleAboutClick = () => {
+        agentSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => {
+            chatRef.current?.triggerAboutQuery();
+        }, 500); // Небольшая задержка для плавности
+    };
 
     const createRain = () => {
         let drops = '';
@@ -53,17 +62,20 @@ function Home() {
           </section>
 
           <section ref={agentSectionRef} style={{ marginBottom: '4rem' }}>
-             <Chat />
+             <Chat ref={chatRef} />
           </section>
 
           <section className="call-to-action">
             <p>Когда серость за окном в радость, а стук капель по крыше — лучшая музыка. <br/>Готовы начать?</p>
-            <Link to="/getweather">
-              <button className="start-button">Начать</button>
-            </Link>
-            <Link to="/edit?from=home">
-              <button className="start-button">Редактировать</button>
-            </Link>
+            <div className="action-buttons">
+                <Link to="/getweather">
+                    <ActionButton text="Начать" />
+                </Link>
+                <Link to="/edit?from=home">
+                    <ActionButton text="Редактировать" />
+                </Link>
+                <ActionButton text="О сайте" onClick={handleAboutClick} />
+            </div>
           </section>
         </div>
       </div>
