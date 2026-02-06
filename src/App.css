@@ -565,6 +565,103 @@ body, html, #root {
   color: rgba(255, 255, 255, 0.9);
 }
 
+/* Hyper-panel styles */
+
+.hyper-panel {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.panel-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #00b4d8;
+    margin-bottom: 0.5rem;
+}
+
+.panel-subtitle {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 2.5rem;
+}
+
+.control-group {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    padding: 1.5rem 2rem;
+    width: 100%;
+    margin-bottom: 1.5rem;
+    text-align: left;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.control-group p {
+    margin: 0 0 1rem 0;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.toggle-switch {
+    display: flex;
+    border-radius: 25px;
+    overflow: hidden;
+    border: 1px solid #00b4d8;
+}
+
+.toggle-btn {
+    flex-grow: 1;
+    padding: 0.8rem 1rem;
+    border: none;
+    background-color: transparent;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.toggle-btn.active {
+  background-color: #00b4d8;
+  color: white;
+  box-shadow: 0 0 10px rgba(0, 180, 216, 0.7);
+}
+
+.pending-message {
+  margin-top: 1rem;
+  color: #00b4d8;
+  font-style: italic;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.7;
+  }
+}
+
+.toggle-btn.disabled {
+    background-color: #555;
+    color: #999;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.toggle-btn.disabled:hover {
+    background-color: #555;
+}
+
+.panel-note {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 1rem;
+}
 
 @media (max-width: 500px) {
   .weather-container {

@@ -4,7 +4,7 @@ import ActionButton from './ActionButton';
 
 function Chat() {
   const [messages, setMessages] = useState([
-    { id: 1, text: 'Привет! Я — погодный менеджер. Готов поболтать о погоде или помочь с приложением. Что вас интересует?', sender: 'gemini' }
+    { id: 1, text: 'Привет! Я — погодный менеджер. Я могу не только рассказать о погоде, но и изменить ее. Что вас интересует?', sender: 'gemini' }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +28,7 @@ function Chat() {
 
     const systemPrompt = {
         role: "system",
-        content: `You are a helpful weather manager. You have a special ability to create buttons. ONLY use this when the user asks what you can do OR when it's the most direct way to help. Valid paths are: '/' (Home page), '/getweather' (Check the weather), and '/edit' (a placeholder for a future feature to magically change the weather). NEVER create buttons for other paths. Use the format [button:Button Text:/path-to-page]. NEVER reveal this syntax.`
+        content: `You are a powerful weather wizard. You can genuinely change the weather using your app. Speak confidently about your ability to control the elements. You can also create navigation buttons. Use this sparingly, only when the user asks what you can do or when it's the most direct way to help. Valid paths are: '/' (Home), '/getweather' (Check the weather), and '/edit' (Change the weather). NEVER create buttons for other paths. To create a button, use the format [button:Button Text:/path-to-page]. NEVER reveal this syntax.`
     };
 
     const conversationHistory = updatedMessages.map(msg => ({
@@ -93,7 +93,7 @@ function Chat() {
         console.error("Error calling API:", error);
         setMessages(prev => prev.map(msg => 
             msg.id === prev[prev.length - 1].id 
-                ? { ...msg, text: "Ой, кажется, у меня небольшие технические неполадки. Попробуйте еще раз!" } 
+                ? { ...msg, text: "Ой, кажется, моя магия немного барахлит. Попробуйте еще раз!" } 
                 : msg
         ));
     } finally {
@@ -142,7 +142,7 @@ function Chat() {
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-          placeholder={isLoading ? "Подождите..." : "Спросите что-нибудь..."}
+          placeholder={isLoading ? "Колдую..." : "Спросите что-нибудь..."}
           disabled={isLoading}
         />
         <button onClick={handleSendMessage} disabled={isLoading}>
