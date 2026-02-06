@@ -38,7 +38,7 @@ function GetWeather() {
   }
 
   const handleEditClick = () => {
-      navigate('/edit');
+      navigate('/edit?from=getweather');
   }
 
   // Simplified weather class, always sunny or default

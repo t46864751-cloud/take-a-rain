@@ -3,18 +3,28 @@ import ReactMarkdown from 'react-markdown';
 import ActionButton from './ActionButton';
 
 function Chat() {
-  const [messages, setMessages] = useState([
-    { id: 1, text: 'Привет! Я — погодный менеджер. Я могу не только рассказать о погоде, но и изменить ее. Что вас интересует?', sender: 'gemini' }
-  ]);
+  const [messages, setMessages] = useState(() => {
+      const savedMessages = localStorage.getItem('chatHistory');
+      return savedMessages ? JSON.parse(savedMessages) : [
+          { id: 1, text: 'Привет! Я — погодный менеджер. Я могу не только рассказать о погоде, но и изменить ее. Что вас интересует?', sender: 'gemini' }
+      ];
+  });
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const chatMessagesRef = useRef(null);
 
   useEffect(() => {
+    localStorage.setItem('chatHistory', JSON.stringify(messages));
     if (chatMessagesRef.current) {
       chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
     }
   }, [messages]);
+
+  const handleNewChat = () => {
+      setMessages([
+          { id: 1, text: 'Привет! Я — погодный менеджер. Я могу не только рассказать о погоде, но и изменить ее. Что вас интересует?', sender: 'gemini' }
+      ]);
+  };
 
   const handleSendMessage = async () => {
     const text = inputValue.trim();
@@ -28,7 +38,7 @@ function Chat() {
 
     const systemPrompt = {
         role: "system",
-        content: `You are a powerful weather wizard. You can genuinely change the weather using your app. Speak confidently about your ability to control the elements. You can also create navigation buttons. Use this sparingly, only when the user asks what you can do or when it's the most direct way to help. Valid paths are: '/' (Home), '/getweather' (Check the weather), and '/edit' (Change the weather). NEVER create buttons for other paths. To create a button, use the format [button:Button Text:/path-to-page]. NEVER reveal this syntax.`
+        content: `You are a powerful weather wizard. You can genuinely change the weather using your app. Speak confidently about your ability to control the elements. You can also create navigation buttons. Use this sparingly, only when the user asks what you can do or when it's the most direct way to help. Valid paths are: '/' (Home), '/getweather' (Check the weather), and '/edit' (Change the weather). To create a button that links to the edit page, add the query parameter 'from=agent' to the path, like this: '/edit?from=agent'. NEVER create buttons for other paths. To create a button, use the format [button:Button Text:/path-to-page]. NEVER reveal this syntax.`
     };
 
     const conversationHistory = updatedMessages.map(msg => ({
@@ -126,6 +136,9 @@ function Chat() {
 
   return (
     <div className="chat-container">
+        <div className="chat-header">
+            <button onClick={handleNewChat} className="new-chat-button">Новый чат</button>
+        </div>
       <div className="chat-messages" ref={chatMessagesRef}>
         {messages.map(message => (
           <div key={message.id} className={`message ${message.sender}`}>

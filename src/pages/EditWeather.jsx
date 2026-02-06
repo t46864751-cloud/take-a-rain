@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 function EditWeather() {
   const [city, setCity] = useState('');
   const [showPanel, setShowPanel] = useState(false);
   const [isRainActive, setIsRainActive] = useState(false);
   const [isPending, setIsPending] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const from = new URLSearchParams(location.search).get('from');
 
   const handleSave = () => {
     if (city.trim()) {
@@ -22,6 +26,23 @@ function EditWeather() {
       setIsPending(false);
     }
   };
+
+  const getBackLink = () => {
+      let path;
+      let state = {};
+      switch (from) {
+          case 'getweather':
+              path = '/getweather';
+              break;
+          case 'agent':
+              path = '/';
+              state = { scrollTo: 'agent' };
+              break;
+          default:
+              path = '/';
+      }
+      return <Link to={{ pathname: path }} state={state}><button className="header-button" style={{ marginTop: '1.5rem' }}>Назад</button></Link>;
+  }
 
   return (
     <div className="App">
@@ -43,9 +64,7 @@ function EditWeather() {
             <button className="start-button" onClick={handleSave} disabled={!city.trim()}>
               Открыть пульт
             </button>
-            <Link to="/getweather" style={{ display: 'block', marginTop: '1.5rem' }}>
-                <button className="header-button">Назад</button>
-            </Link>
+            {getBackLink()}
           </>
         ) : (
           <div className="hyper-panel">

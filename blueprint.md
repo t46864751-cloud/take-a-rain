@@ -31,4 +31,11 @@ This application allows users to trigger a rain effect in a chosen city. The int
 
 ## Current Plan
 
-*   The application is fully functional. The next steps could involve adding more features like a 5-day forecast, or improving the user interface.
+1.  **Add 'Edit' button to Home Page:** Add a new button on the home page to navigate directly to the edit weather page.
+2.  **Contextual Navigation:**
+    *   The edit weather page will understand the user's navigation source (from Home, Get Weather, or AI Agent) using URL parameters.
+    *   The "Back" button on the edit page will return the user to the correct previous page.
+    *   When returning to the home page from the agent context, the page will automatically scroll down to the agent section.
+3.  **AI Agent Chat Enhancements:**
+    *   Add a "New Chat" button to the agent's chat interface.
+    *   Implement local storage to persist the chat history.

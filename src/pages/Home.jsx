@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import '../App.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Chat from '../components/Chat';
 
 function Home() {
+    const location = useLocation();
+    const agentSectionRef = useRef(null);
+
+    useEffect(() => {
+        if (location.state?.scrollTo === 'agent') {
+            agentSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [location]);
 
     const createRain = () => {
         let drops = '';
@@ -44,7 +52,7 @@ function Home() {
             </div>
           </section>
 
-          <section style={{ marginBottom: '4rem' }}>
+          <section ref={agentSectionRef} style={{ marginBottom: '4rem' }}>
              <Chat />
           </section>
 
@@ -52,6 +60,9 @@ function Home() {
             <p>Когда серость за окном в радость, а стук капель по крыше — лучшая музыка. <br/>Готовы начать?</p>
             <Link to="/getweather">
               <button className="start-button">Начать</button>
+            </Link>
+            <Link to="/edit?from=home">
+              <button className="start-button">Редактировать</button>
             </Link>
           </section>
         </div>
