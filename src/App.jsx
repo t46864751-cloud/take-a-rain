@@ -5,6 +5,7 @@ import GetWeather from './pages/GetWeather';
 import EditWeather from './pages/EditWeather';
 import NotFound from './pages/NotFound';
 import AboutThis from './pages/AboutThis';
+import OloGdeDozhd from './pages/OloGdeDozhd';
 import './App.css';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/getweather" element={<GetWeather />} />
         <Route path="/edit" element={<EditWeather />} />
         <Route path="/about-this" element={<AboutThis />} />
+        <Route path="/olo_gde_dozhd" element={<OloGdeDozhd />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

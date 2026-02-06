@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../App.css';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -7,11 +7,26 @@ function GetWeather() {
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [isCityValid, setIsCityValid] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (city.trim().length >= 3) {
+      setIsCityValid(true);
+      setError('');
+    } else {
+      setIsCityValid(false);
+      if (city.trim().length > 0) {
+        setError('Название города должно содержать не менее 3 символов.');
+      } else {
+        setError('');
+      }
+    }
+  }, [city]);
+
   const handleGetWeather = async () => {
-    if (!city) {
-      setError('Пожалуйста, введите город.');
+    if (!isCityValid) {
+      setError('Пожалуйста, введите корректное название города.');
       return;
     }
 
@@ -64,13 +79,13 @@ function GetWeather() {
                             placeholder="Например, Москва"
                             value={city}
                             onChange={(e) => setCity(e.target.value)}
-                            onKeyPress={(e) => e.key === 'Enter' && handleGetWeather()}
+                            onKeyPress={(e) => e.key === 'Enter' && isCityValid && handleGetWeather()}
                         />
-                        <button className="weather-button" onClick={handleGetWeather} disabled={loading}>
+                        <button className="weather-button" onClick={handleGetWeather} disabled={!isCityValid || loading}>
                             {loading ? 'Загрузка...' : 'Узнать'}
                         </button>
                     </div>
-                    {error && <p className="error-message">{error}</p>}
+                    {error && <p className="error-message" style={{ minHeight: '1.2rem' }}>{error}</p>}
                 </>
             ) : (
                 <>
