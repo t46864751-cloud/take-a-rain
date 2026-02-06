@@ -1,6 +1,7 @@
 import React from 'react';
 import '../App.css';
 import { Link } from 'react-router-dom';
+import Chat from '../components/Chat';
 
 function Home() {
 
@@ -41,6 +42,10 @@ function Home() {
               <h3>Как?</h3>
               <p>Мы используем силу воображения и немного современных технологий. Магия, не иначе.</p>
             </div>
+          </section>
+
+          <section style={{ marginBottom: '4rem' }}>
+             <Chat />
           </section>
 
           <section className="call-to-action">

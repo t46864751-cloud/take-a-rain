@@ -331,6 +331,22 @@ body, html, #root {
     width: 100%;
 }
 
+.action-button {
+  background-color: #00b4d8;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.action-button:hover {
+  background-color: #00a0c4;
+}
+
 .detail-item {
     display: flex;
     align-items: center;
@@ -360,6 +376,195 @@ body, html, #root {
     font-size: 1.1rem;
     font-weight: 500;
 }
+
+/* Chat Styles */
+.chat-container {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 600px;
+  height: 400px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+.chat-messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-right: 1rem;
+  margin-bottom: 1rem;
+}
+
+.message {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.message.user {
+  justify-content: flex-end;
+}
+
+.message.gemini {
+  justify-content: flex-start;
+}
+
+.message-bubble {
+  max-width: 80%;
+  padding: 0.8rem 1.2rem;
+  border-radius: 20px;
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+.message.user .message-bubble {
+  background: #00b4d8;
+  color: white;
+  border-bottom-right-radius: 5px;
+}
+
+.message.gemini .message-bubble {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border-bottom-left-radius: 5px;
+}
+
+/* Markdown Styles */
+.message-bubble h1, .message-bubble h2, .message-bubble h3, .message-bubble h4, .message-bubble h5, .message-bubble h6 {
+    margin-top: 0.8em;
+    margin-bottom: 0.4em;
+    color: #00b4d8;
+}
+.message-bubble h1 { font-size: 1.5em; }
+.message-bubble h2 { font-size: 1.3em; }
+.message-bubble h3 { font-size: 1.2em; }
+
+.message-bubble p {
+    margin-top: 0;
+    margin-bottom: 0.5em;
+}
+
+.message-bubble ul, .message-bubble ol {
+    margin-top: 0;
+    margin-bottom: 1em;
+    padding-left: 1.5em;
+}
+
+.message-bubble li {
+    margin-bottom: 0.3em;
+}
+
+.message-bubble strong {
+    font-weight: 700;
+}
+
+.message-bubble em {
+    font-style: italic;
+}
+
+.chat-input-area {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.chat-input-area input {
+  flex-grow: 1;
+  padding: 0.8rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 1rem;
+}
+
+.chat-input-area input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.chat-input-area button {
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  border: none;
+  background: #00b4d8;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.chat-input-area button:hover {
+  background: #00a0c4;
+}
+
+/* Scrollbar styles for chat */
+.chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: #00b4d8;
+  border-radius: 10px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background: #00a0c4;
+}
+
+.typing-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1em;
+  background-color: white;
+  animation: blink 1s step-end infinite;
+  vertical-align: bottom;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  from, to {
+    background-color: transparent;
+  }
+  50% {
+    background-color: white;
+  }
+}
+
+/* NotFound Page Styles */
+.not-found-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.not-found-title {
+  font-size: 8rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.not-found-subtitle {
+  font-size: 2rem;
+  font-weight: 300;
+  margin-bottom: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.not-found-text {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
 
 @media (max-width: 500px) {
   .weather-container {

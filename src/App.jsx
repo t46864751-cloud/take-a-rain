@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import GetWeather from './pages/GetWeather';
+import EditWeather from './pages/EditWeather';
+import NotFound from './pages/NotFound';
 import './App.css';
 
 function App() {
@@ -10,6 +12,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/getweather" element={<GetWeather />} />
+        <Route path="/edit" element={<EditWeather />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
