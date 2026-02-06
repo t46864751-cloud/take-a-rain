@@ -4,8 +4,8 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 lerna-debug.log*
-.pnpm-debug.log*
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
@@ -42,7 +42,7 @@ build/Release
 node_modules/
 jspm_packages/
 
-# Snowpack dependency directory (https://snowpack.dev/)
+# Snowpack dependency directory (https://www.snowpack.dev/)
 web_modules
 
 # TypeScript cache
@@ -69,19 +69,48 @@ web_modules
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
-.env
-.env.development.local
-.env.test.local
-.env.production.local
-.env.local
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
 
-# Vitest coverage directory
-/coverage
+# Next.js build output
+.next
+out
 
-# Mac files
-.DS_Store
-
-# Vite
-.vite
+# Nuxt.js build output
+.nuxt
 dist
+
+# Svelte Kit build output
+.svelte-kit
+
+# Gatsby build output
+.cache/
+# Comment in the public line in if your project uses Gatsby and not Next.js
+# https://nextjs.org/blog/next-9-1#public-directory-support
+# public
+
+# vuepress build output
+.vuepress/dist
+
+# Serverless directories
+.serverless/
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
+
+# TernJS port file
+.tern-port
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# yarn v2
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*

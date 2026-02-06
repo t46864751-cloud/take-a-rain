@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { database } from '../firebaseConfig';
+import { ref, set, remove } from 'firebase/database';
+
+const GEOAPIFY_API_KEY = import.meta.env.VITE_GEOAPIFY_API_KEY;
 
 function EditWeather() {
   const [city, setCity] = useState('');
@@ -13,7 +17,6 @@ function EditWeather() {
   const navigate = useNavigate();
   const rainTimerRef = useRef(null);
 
-  // Effect to clean up the timer when the component unmounts
   useEffect(() => {
     return () => {
       if (rainTimerRef.current) {
@@ -42,28 +45,53 @@ function EditWeather() {
     }
   };
 
-  const handleToggleRain = (activate) => {
-    // Always clear the previous timer
+  const handleToggleRain = async (activate) => {
     if (rainTimerRef.current) {
       clearTimeout(rainTimerRef.current);
     }
     setShowErrorButton(false);
+    setError(''); // Clear previous errors
+
+    const cityRef = ref(database, `rainingCities/${city.toLowerCase()}`);
 
     if (activate) {
       setIsRainActive(true);
       setIsPending(true);
-      // Set a new timer to show the error button
-      rainTimerRef.current = setTimeout(() => {
-        setShowErrorButton(true);
+      try {
+        // 1. Get coordinates using Geoapify
+        const response = await fetch(`https://api.geoapify.com/v1/geocode/search?text=${encodeURIComponent(city)}&apiKey=${GEOAPIFY_API_KEY}`);
+        const data = await response.json();
+
+        if (data.features && data.features.length > 0) {
+          const { lat, lon: lng } = data.features[0].properties;
+          // 2. Save to Firebase
+          await set(cityRef, { name: city, lat, lng });
+          rainTimerRef.current = setTimeout(() => {
+            setShowErrorButton(true);
+            setIsPending(false);
+          }, 2000);
+        } else {
+          throw new Error('Город не найден');
+        }
+      } catch (e) {
+        setError('Не удалось найти город. Попробуйте ввести другое название.');
+        setIsRainActive(false);
         setIsPending(false);
-      }, 2000);
+      }
     } else {
+      // Remove from Firebase
+      await remove(cityRef);
       setIsRainActive(false);
       setIsPending(false);
     }
   };
 
   const handleResetCity = () => {
+    // Ensure city is removed from Firebase if user navigates away
+    if (isRainActive) {
+      const cityRef = ref(database, `rainingCities/${city.toLowerCase()}`);
+      remove(cityRef);
+    }
     setShowPanel(false);
     setIsRainActive(false);
     setIsPending(false);
@@ -76,6 +104,7 @@ function EditWeather() {
   const getBackLink = () => {
     let path;
     let state = {};
+    const from = new URLSearchParams(location.search).get('from');
     switch (from) {
       case 'getweather':
         path = '/getweather';
@@ -89,8 +118,6 @@ function EditWeather() {
     }
     return <Link to={{ pathname: path }} state={state}><button className="header-button" style={{ marginTop: '1.5rem' }}>Назад</button></Link>;
   };
-
-  const from = new URLSearchParams(location.search).get('from');
 
   return (
     <div className="App">
@@ -142,6 +169,7 @@ function EditWeather() {
                 Дождь не появился
               </button>
             )}
+             {error && <p className="error-message" style={{ minHeight: '1.2rem' }}>{error}</p>}
             <p className="panel-note">*Скорость вызова дождя зависит от фазы луны и настроения синоптиков.</p>
             <button className="header-button" onClick={handleResetCity} style={{ marginTop: '2rem' }}>
               Выбрать другой город
