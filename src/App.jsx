@@ -8,7 +8,7 @@ import './App.css';
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/take-a-rain">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/getweather" element={<GetWeather />} />
