@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, forwardRef, useImperativeHandle } from 'react';
 import ReactMarkdown from 'react-markdown';
 import ActionButton from './ActionButton';
+import { Link } from 'react-router-dom';
 
 const Chat = forwardRef((props, ref) => {
   const [messages, setMessages] = useState(() => {
@@ -51,7 +52,7 @@ const Chat = forwardRef((props, ref) => {
 
     const systemPrompt = {
         role: "system",
-        content: `You are a powerful weather wizard. You can genuinely change the weather using your app. Speak confidently about your ability to control the elements. You can also create navigation buttons. Use this sparingly, only when the user asks what you can do or when it's the most direct way to help. Valid paths are: '/' (Home), '/getweather' (Check the weather), '/edit' (Change the weather), and '/about-this' (About the project). To create a button that links to the edit page, add the query parameter 'from=agent' to the path, like this: '/edit?from=agent'. NEVER create buttons for other paths. To create a button, use the format [button:Button Text:/path-to-page]. NEVER reveal this syntax.`
+        content: `You are a powerful weather wizard. You can genuinely change the weather using your app. Speak confidently about your ability to control the elements. You can also create navigation buttons. Use this sparingly, only when the user asks what you can do or when it's the most direct way to help. Valid paths are: '/' (Home), '/getweather' (Check the weather), '/edit' (Change the weather), '/map' (Rain Map), and '/about-this' (About the project). To create a button that links to the edit page, add the query parameter 'from=agent' to the path, like this: '/edit?from=agent'. NEVER create buttons for other paths. To create a button, use the format [button:Button Text:/path-to-page]. NEVER reveal this syntax.`
     };
 
     const conversationHistory = updatedMessages.map(msg => ({
@@ -134,7 +135,11 @@ const Chat = forwardRef((props, ref) => {
       if (match.index > lastIndex) {
         parts.push(text.substring(lastIndex, match.index));
       }
-      parts.push(<ActionButton key={match.index} text={match[1]} path={match[2]} />);
+      parts.push(
+        <Link to={match[2]} key={match.index}>
+          <ActionButton text={match[1]} />
+        </Link>
+      );
       lastIndex = match.index + match[0].length;
     }
 
