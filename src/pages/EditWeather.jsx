@@ -44,7 +44,6 @@ function EditWeather() {
   };
 
   const handleToggleRain = async (activate) => {
-    // Defensive check to ensure coordinates exist
     if (activate && !coordinates) {
       setError('Ошибка: Координаты города не определены. Попробуйте проверить город снова.');
       return;
@@ -59,7 +58,6 @@ function EditWeather() {
 
     if (activate) {
       try {
-        // Using explicit properties instead of spread syntax for robustness
         await set(cityRef, { 
             name: city, 
             lat: coordinates.lat, 
@@ -67,7 +65,7 @@ function EditWeather() {
             timestamp: Date.now()
         });
         setIsRainActive(true);
-        setError(''); // Clear previous errors
+        setError('');
       } catch (e) {
         console.error("Firebase write error:", e);
         setError('Ошибка записи в базу. Проверьте правила безопасности Firebase.');
@@ -76,7 +74,7 @@ function EditWeather() {
         try {
             await remove(cityRef);
             setIsRainActive(false);
-            setError(''); // Clear previous errors
+            setError('');
         } catch (e) {
             console.error("Firebase remove error:", e);
             setError('Ошибка удаления из базы. Проверьте правила безопасности Firebase.');
@@ -84,11 +82,8 @@ function EditWeather() {
     }
   };
 
-  const handleResetCity = () => {
-    if (isRainActive) {
-        const cityRef = ref(database, `rainingCities/${city.toLowerCase().trim()}`);
-        remove(cityRef).catch(e => console.error("Firebase remove on reset error:", e));
-    }
+  // This function now ONLY resets the UI state, without touching the database
+  const handleCancel = () => {
     setCity('');
     setShowPanel(false);
     setIsRainActive(false);
@@ -158,9 +153,14 @@ function EditWeather() {
             </div>
              {error && <p className="error-message" style={{ minHeight: '1.2rem' }}>{error}</p>}
             <p className="panel-note">*Включение этой опции добавит город в базу данных и на карту дождей.</p>
-            <button className="header-button" onClick={handleResetCity} style={{ marginTop: '2rem' }}>
-              Выбрать другой город
-            </button>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '2rem' }}>
+              <button className="header-button" onClick={handleCancel}>
+                Отменить
+              </button>
+              <Link to="/">
+                <button className="header-button">На главную</button>
+              </Link>
+            </div>
           </div>
         )}
       </div>
